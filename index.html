@@ -1,0 +1,1899 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1920" />
+<title>Riskitera — Pitch Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0b1121;
+    --bg-2:      #0f1629;
+    --panel:     #131b2e;
+    --panel-2:   #1a2340;
+    --line:      rgba(255,255,255,0.08);
+    --line-2:    rgba(255,255,255,0.14);
+    --ink:       #ECEEF2;
+    --ink-dim:   #9AA3B2;
+    --ink-mute:  #5B6472;
+
+    /* Brand accent — Riskitera blue, from riskitera.com */
+    --accent:    #3b82f6;
+    --accent-2:  #2563eb;
+    --accent-soft: rgba(59, 130, 246, 0.14);
+
+    --ok:        #10b981;
+    --warn:      #f59e0b;
+    --bad:       #ef4444;
+
+    --sans: "Space Grotesk", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    --serif: "Instrument Serif", Georgia, serif;
+  }
+
+  html, body { margin:0; background:#000; color:var(--ink); font-family: var(--sans); }
+  body { overflow: hidden; }
+
+  deck-stage { background:#000; }
+
+  /* ── Slide shell ─────────────────────────────────────────────────── */
+  section.slide {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* faint grid backdrop, baked into every slide */
+  section.slide::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at 50% 50%, #000 40%, transparent 85%);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000 40%, transparent 85%);
+  }
+
+  /* Slide chrome — same on every slide */
+  .chrome {
+    position: absolute; inset: 0;
+    padding: 56px 88px;
+    display: flex; flex-direction: column;
+    z-index: 2;
+  }
+
+  .chrome-top {
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .chrome-top .wordmark {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .chrome-top .wordmark .dot {
+    width: 8px; height: 8px; border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+  .chrome-top .crumb { display: inline-flex; gap: 18px; align-items: center; }
+  .chrome-top .crumb .sep { color: var(--ink-mute); opacity: 0.5; }
+
+  .chrome-bottom {
+    margin-top: auto;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-mute);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .chrome-bottom .tag { color: var(--ink-dim); }
+
+  /* Reusable parts ---------------------------------------------------- */
+  .kicker {
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 18px;
+  }
+  .h1 {
+    font-weight: 500;
+    font-size: 92px;
+    line-height: 0.98;
+    letter-spacing: -0.028em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .h2 {
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 1.02;
+    letter-spacing: -0.022em;
+    margin: 0;
+  }
+  .lede {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 34px;
+    line-height: 1.2;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin: 0;
+    text-wrap: pretty;
+  }
+  .body {
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink-dim);
+    margin: 0;
+    text-wrap: pretty;
+  }
+  .mono { font-family: var(--mono); }
+  .accent { color: var(--accent); }
+
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: rgba(255,255,255,0.02);
+  }
+  .pill .dot { width: 6px; height: 6px; border-radius: 999px; background: var(--accent); }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px 30px;
+    position: relative;
+  }
+  .card .idx {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    color: var(--ink-mute);
+  }
+  .card h3 {
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin: 12px 0 10px;
+  }
+  .card p {
+    font-size: 18px;
+    line-height: 1.45;
+    color: var(--ink-dim);
+    margin: 0;
+  }
+
+  /* Number call-out */
+  .stat-num {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 84px;
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 12px;
+  }
+  .stat-sub {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ink-dim);
+    margin-top: 8px;
+  }
+
+  /* Hide scrollbars inside slide content */
+  section.slide * { scrollbar-width: none; }
+  section.slide *::-webkit-scrollbar { display: none; }
+
+  /* ── Entry animations ─────────────────────────────────────────────
+     Elements tagged [data-anim] start hidden. When their slide becomes
+     active we stamp [data-anim-in] and they play in sequence based on
+     --d (delay seconds) and --anim (kind).                             */
+  [data-anim] { opacity: 0; will-change: transform, opacity, filter; }
+
+  [data-anim-in][data-anim="rise"]   { animation: riseIn  780ms cubic-bezier(.2,.7,.15,1) var(--d,0s) both; }
+  [data-anim-in][data-anim="fade"]   { animation: fadeIn  900ms cubic-bezier(.2,.7,.15,1) var(--d,0s) both; }
+  [data-anim-in][data-anim="left"]   { animation: leftIn  780ms cubic-bezier(.2,.7,.15,1) var(--d,0s) both; }
+  [data-anim-in][data-anim="right"]  { animation: rightIn 780ms cubic-bezier(.2,.7,.15,1) var(--d,0s) both; }
+  [data-anim-in][data-anim="scale"]  { animation: scaleIn 820ms cubic-bezier(.2,.7,.15,1) var(--d,0s) both; }
+  [data-anim-in][data-anim="bloom"]  { animation: bloom  1100ms cubic-bezier(.2,.7,.15,1) var(--d,0s) both; }
+  [data-anim-in][data-anim="count"]  { animation: fadeIn  600ms ease var(--d,0s) both; }
+  [data-anim-in][data-anim="wipe"]   { animation: wipeIn  900ms cubic-bezier(.2,.7,.15,1) var(--d,0s) both; }
+  [data-anim-in][data-anim="draw"]   {
+    animation: fadeIn 400ms ease var(--d,0s) both, drawLine 1200ms cubic-bezier(.2,.7,.15,1) var(--d,0s) both;
+  }
+  [data-anim-in][data-anim="bar"]    { animation: barGrow 1000ms cubic-bezier(.2,.7,.15,1) var(--d,0s) both; transform-origin: left center; }
+
+  @keyframes riseIn  { from { opacity:0; transform: translateY(22px); filter: blur(6px);} to { opacity:1; transform:none; filter: blur(0);} }
+  @keyframes fadeIn  { from { opacity:0;} to { opacity:1;} }
+  @keyframes leftIn  { from { opacity:0; transform: translateX(-30px);} to { opacity:1; transform:none;} }
+  @keyframes rightIn { from { opacity:0; transform: translateX(30px);} to { opacity:1; transform:none;} }
+  @keyframes scaleIn { from { opacity:0; transform: scale(0.9);} to { opacity:1; transform:none;} }
+  @keyframes bloom   { 0% { opacity:0; transform: scale(0.5);} 60% { opacity:1;} 100% { opacity:1; transform: scale(1);} }
+  @keyframes wipeIn  { from { opacity:0; clip-path: inset(0 100% 0 0);} to { opacity:1; clip-path: inset(0 0 0 0);} }
+  @keyframes drawLine { from { stroke-dashoffset: 1000;} to { stroke-dashoffset: 0;} }
+  @keyframes barGrow { from { opacity:0; transform: scaleX(0);} to { opacity:1; transform: scaleX(1);} }
+
+  /* Ambient pulse for cover radar dot */
+  @keyframes radarPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.55); }
+    80%  { box-shadow: 0 0 0 28px rgba(59, 130, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+  }
+  .radar-dot { animation: radarPulse 2.4s ease-out infinite; }
+
+  /* Ticker — simple numeric count-up driven by CSS custom prop */
+  @property --num { syntax: '<integer>'; inherits: false; initial-value: 0; }
+  [data-anim-in] .tick { animation: tickUp 1400ms cubic-bezier(.2,.7,.15,1) var(--d,0.2s) both; }
+  @keyframes tickUp { from { --num: 0; } to { --num: var(--target, 100); } }
+</style>
+
+<script type="application/json" id="speaker-notes">
+[
+"Hola, somos Riskitera. Ayudamos a equipos de seguridad, riesgo y compliance a pasar de la evidencia manual al control continuo. En el contexto de NIS2, DORA, ISO 27001 y SOC, los riesgos, controles y evidencias cambian cada día — las auditorías 'por foto' ya no sirven.",
+"El compliance hoy se ejecuta como un proyecto puntual, pero el riesgo es continuo. Tres dolores: primero, regulación — NIS2 y DORA elevan exigencias de gestión de riesgos, reporting e incidentes, y la evidencia debe ser trazable. Segundo, fragmentación — riesgos, controles, tickets y evidencias viven en Excel, GRC legacy, Jira y Drive. Tercero, coste y velocidad — la recolección de evidencia consume semanas, y los errores aumentan la exposición y el coste de auditoría.",
+"Riskitera unifica tres capas en una plataforma: una capa de riesgo que mapea controles contra NIS2, DORA, ISO 27001 y SOC; una capa de evidencia automática que se conecta a tus sistemas vía conectores; y una capa de operación que orquestra incidentes y reporting. El resultado: compliance continuo, información inmediata y operación coordinada — en semanas, no en trimestres.",
+"Esto es el producto en funcionamiento. Tenéis cuatro demos en vídeo: el overview completo de GRC, SOC y CTI, y uno dedicado a cada módulo. En el overview veréis el dashboard de control continuo, los conectores recogiendo evidencia automáticamente y el módulo de riesgos actualizándose en tiempo real. Lo que antes era un ejercicio trimestral de auditoría, ahora es una foto viva de vuestro compliance.",
+"El mercado tiene viento de cola regulatorio en Europa. TAM: 70 mil millones de dólares — el mercado global de eGRC en 2026. SAM: 16 mil millones — plataformas GRC en Europa. SOM: 24 millones — nuestra captación estimada a cinco años. NIS2 está en aplicación desde octubre de 2024, DORA desde enero de 2025. ENISA reporta un aumento sostenido de inversión en ciberseguridad.",
+"Tracción real. MRR actual de 18 mil euros, con crecimiento del 15% mes a mes. 24 clientes entre pilotos y pagos. NPS proxy de 52, con objetivo por encima de 60. Y un crecimiento interanual de 4 veces sobre una base pequeña — con enfoque en el mercado regulado europeo, sectores NIS2 y DORA.",
+"Competimos en el mid-market regulado con tres ventajas claras: packs NIS2/DORA listos de fábrica, evidencia automática, y una UX pensada para equipos sin ejército de consultores. Frente a CyberArrow somos más completos en evidencia automatizada; frente a GlobalSuite y ServiceNow IRM ganamos en velocidad de despliegue y precio. Nuestro rango es 24 a 120 mil euros al año — la mitad o menos que los players enterprise.",
+"Go-to-market a 12-18 meses con estrategia land & expand. Primer año: foco en distribución MSSP y mayoristas en España; segundo tramo: expansión a DACH con partners. Ciclos de cierre cortos, entrada por packs normativos concretos, expansión por nuevos marcos y conectores sobre la misma cuenta.",
+"Ronda seed de 500 mil euros para seis meses de runway. Con esa ronda: en producto, más de 10 conectores de evidencia y packs NIS2/DORA completos; en go-to-market, repetir el playbook en DACH y España con partners; en métricas, superar 100 mil euros de MRR y NRR por encima del 110%. Margen bruto de 85%, CAC decreciente con partners. Preparados para Serie A con churn bajo y eficiencia de CAC demostrada.",
+"Equipo fundador con profundidad operativa. David Moya García, CEO, viene de Head of Detect en entidad bancaria y BDM en sector público — 20 años en ciberseguridad. Daniel García, CTO, ingeniero de seguridad con background en arquitectura tecnológica y data. Más Global Manager de IA cubriendo ventas y operación. 10 personas en total: 6 ingeniería, 2 producto, 1 ventas, 1 ops. Contrataciones clave a 12 meses: Head of Sales DACH/EU, Solutions Engineer, y Security Research.",
+"Gracias. Estamos construyendo la plataforma de compliance continuo para el mercado regulado europeo, justo cuando NIS2 y DORA obligan a dejar atrás las auditorías por foto. David Moya García — david@riskitera.com, +34 629 346 366, riskitera.com. Hablemos."
+]
+</script>
+
+<script>
+/**
+ * <deck-stage> — reusable web component for HTML decks.
+ *
+ * Handles:
+ *  (a) speaker notes — reads <script type="application/json" id="speaker-notes">
+ *      and posts {slideIndexChanged: N} to the parent window on nav.
+ *  (b) keyboard navigation — ←/→, PgUp/PgDn, Space, Home/End, number keys.
+ *  (c) press R to reset to slide 0 (with a tasteful keyboard hint).
+ *  (d) bottom-center overlay showing slide count + hints, fades out on idle.
+ *  (e) auto-scaling — inner canvas is a fixed design size (default 1920×1080)
+ *      scaled with `transform: scale()` to fit the viewport, letterboxed.
+ *      Set the `noscale` attribute to render at authored size (1:1) — the
+ *      PPTX exporter sets this so its DOM capture sees unscaled geometry.
+ *  (f) print — `@media print` lays every slide out as its own page at the
+ *      design size, so the browser's Print → Save as PDF produces a clean
+ *      one-page-per-slide PDF with no extra setup.
+ *
+ * Slides are HIDDEN, not unmounted. Non-active slides stay in the DOM with
+ * `visibility: hidden` + `opacity: 0`, so their state (videos, iframes,
+ * form inputs, React trees) is preserved across navigation.
+ *
+ * Lifecycle event — the component dispatches a `slidechange` CustomEvent on
+ * itself whenever the active slide changes (including the initial mount).
+ * The event bubbles and composes out of shadow DOM, so you can listen on
+ * the <deck-stage> element or on document:
+ *
+ *   document.querySelector('deck-stage').addEventListener('slidechange', (e) => {
+ *     e.detail.index         // new 0-based index
+ *     e.detail.previousIndex // previous index, or -1 on init
+ *     e.detail.total         // total slide count
+ *     e.detail.slide         // the new active slide element
+ *     e.detail.previousSlide // the prior slide element, or null on init
+ *     e.detail.reason        // 'init' | 'keyboard' | 'click' | 'tap' | 'api'
+ *   });
+ *
+ * Persistence: current slide index is saved to localStorage keyed by the
+ * document path, so refresh returns you to the same place.
+ *
+ * Usage:
+ *   <deck-stage width="1920" height="1080">
+ *     <section data-label="Title">...</section>
+ *     <section data-label="Agenda">...</section>
+ *   </deck-stage>
+ *
+ * Slides are the direct element children of <deck-stage>. Each slide is
+ * automatically tagged with:
+ *   - data-screen-label="NN Label"   (1-indexed, for comment flow)
+ *   - data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text"
+ */
+
+(() => {
+  const DESIGN_W_DEFAULT = 1920;
+  const DESIGN_H_DEFAULT = 1080;
+  const STORAGE_PREFIX = 'deck-stage:slide:';
+  const OVERLAY_HIDE_MS = 1800;
+  const VALIDATE_ATTR = 'no_overflowing_text,no_overlapping_text,slide_sized_text';
+
+  const pad2 = (n) => String(n).padStart(2, '0');
+
+  const stylesheet = `
+    :host {
+      position: fixed;
+      inset: 0;
+      display: block;
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .canvas {
+      position: relative;
+      transform-origin: center center;
+      flex-shrink: 0;
+      background: #fff;
+      will-change: transform;
+    }
+
+    /* Slides live in light DOM (via <slot>) so authored CSS still applies.
+       We absolutely position each slotted child to stack them. */
+    ::slotted(*) {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    ::slotted([data-deck-active]) {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    /* Tap zones for mobile — back/forward thirds like Stories.
+       Transparent, no visible UI, don't block the overlay. */
+    .tapzones {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      z-index: 2147482000;
+      pointer-events: none;
+    }
+    .tapzone {
+      flex: 1;
+      pointer-events: auto;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Only activate tap zones on coarse pointers (touch devices). */
+    @media (hover: hover) and (pointer: fine) {
+      .tapzones { display: none; }
+    }
+
+    .overlay {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translate(-50%, 6px) scale(0.92);
+      filter: blur(6px);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: #000;
+      color: #fff;
+      border-radius: 999px;
+      font-size: 12px;
+      font-feature-settings: "tnum" 1;
+      letter-spacing: 0.01em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 260ms ease, transform 260ms cubic-bezier(.2,.8,.2,1), filter 260ms ease;
+      transform-origin: center bottom;
+      z-index: 2147483000;
+      user-select: none;
+    }
+    .overlay[data-visible] {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 0) scale(1);
+      filter: blur(0);
+    }
+
+    .btn {
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      color: inherit;
+      font: inherit;
+      cursor: default;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 999px;
+      color: rgba(255,255,255,0.72);
+      transition: background 140ms ease, color 140ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .btn:active { background: rgba(255,255,255,0.18); }
+    .btn:focus { outline: none; }
+    .btn:focus-visible { outline: none; }
+    .btn::-moz-focus-inner { border: 0; }
+    .btn svg { width: 14px; height: 14px; display: block; }
+    .btn.reset {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      padding: 0 10px 0 12px;
+      gap: 6px;
+      color: rgba(255,255,255,0.72);
+    }
+    .btn.reset .kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 10px;
+      line-height: 1;
+      color: rgba(255,255,255,0.88);
+      background: rgba(255,255,255,0.12);
+      border-radius: 4px;
+    }
+
+    .count {
+      font-variant-numeric: tabular-nums;
+      color: #fff;
+      font-weight: 500;
+      padding: 0 8px;
+      min-width: 42px;
+      text-align: center;
+      font-size: 12px;
+    }
+    .count .sep { color: rgba(255,255,255,0.45); margin: 0 3px; font-weight: 400; }
+    .count .total { color: rgba(255,255,255,0.55); }
+
+    .divider {
+      width: 1px;
+      height: 14px;
+      background: rgba(255,255,255,0.18);
+      margin: 0 2px;
+    }
+
+    /* ── Print: one page per slide, no chrome ────────────────────────────
+       The screen layout stacks every slide at inset:0 inside a scaled
+       canvas; for print we want them in document flow at the authored
+       design size so the browser paginates one slide per sheet. The
+       @page size is set from the width/height attributes via the inline
+       <style id="deck-stage-print-page"> that connectedCallback injects
+       into <head> (the @page at-rule has no effect inside shadow DOM). */
+    @media print {
+      :host {
+        position: static;
+        inset: auto;
+        background: none;
+        overflow: visible;
+        color: inherit;
+      }
+      .stage { position: static; display: block; }
+      .canvas {
+        transform: none !important;
+        width: auto !important;
+        height: auto !important;
+        background: none;
+        will-change: auto;
+      }
+      ::slotted(*) {
+        position: relative !important;
+        inset: auto !important;
+        width: var(--deck-design-w) !important;
+        height: var(--deck-design-h) !important;
+        box-sizing: border-box !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto;
+        break-after: page;
+        page-break-after: always;
+        break-inside: avoid;
+        overflow: hidden;
+      }
+      ::slotted(*:last-child) {
+        break-after: auto;
+        page-break-after: auto;
+      }
+      .overlay, .tapzones { display: none !important; }
+    }
+  `;
+
+  class DeckStage extends HTMLElement {
+    static get observedAttributes() { return ['width', 'height', 'noscale']; }
+
+    constructor() {
+      super();
+      this._root = this.attachShadow({ mode: 'open' });
+      this._index = 0;
+      this._slides = [];
+      this._notes = [];
+      this._hideTimer = null;
+      this._mouseIdleTimer = null;
+      this._storageKey = STORAGE_PREFIX + (location.pathname || '/');
+
+      this._onKey = this._onKey.bind(this);
+      this._onResize = this._onResize.bind(this);
+      this._onSlotChange = this._onSlotChange.bind(this);
+      this._onMouseMove = this._onMouseMove.bind(this);
+      this._onTapBack = this._onTapBack.bind(this);
+      this._onTapForward = this._onTapForward.bind(this);
+    }
+
+    get designWidth() {
+      return parseInt(this.getAttribute('width'), 10) || DESIGN_W_DEFAULT;
+    }
+    get designHeight() {
+      return parseInt(this.getAttribute('height'), 10) || DESIGN_H_DEFAULT;
+    }
+
+    connectedCallback() {
+      this._render();
+      this._loadNotes();
+      this._syncPrintPageRule();
+      window.addEventListener('keydown', this._onKey);
+      window.addEventListener('resize', this._onResize);
+      window.addEventListener('mousemove', this._onMouseMove, { passive: true });
+      // Initial collection + layout happens via slotchange, which fires on mount.
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('keydown', this._onKey);
+      window.removeEventListener('resize', this._onResize);
+      window.removeEventListener('mousemove', this._onMouseMove);
+      if (this._hideTimer) clearTimeout(this._hideTimer);
+      if (this._mouseIdleTimer) clearTimeout(this._mouseIdleTimer);
+    }
+
+    attributeChangedCallback() {
+      if (this._canvas) {
+        this._canvas.style.width = this.designWidth + 'px';
+        this._canvas.style.height = this.designHeight + 'px';
+        this._canvas.style.setProperty('--deck-design-w', this.designWidth + 'px');
+        this._canvas.style.setProperty('--deck-design-h', this.designHeight + 'px');
+        this._fit();
+        this._syncPrintPageRule();
+      }
+    }
+
+    _render() {
+      const style = document.createElement('style');
+      style.textContent = stylesheet;
+
+      const stage = document.createElement('div');
+      stage.className = 'stage';
+
+      const canvas = document.createElement('div');
+      canvas.className = 'canvas';
+      canvas.style.width = this.designWidth + 'px';
+      canvas.style.height = this.designHeight + 'px';
+      canvas.style.setProperty('--deck-design-w', this.designWidth + 'px');
+      canvas.style.setProperty('--deck-design-h', this.designHeight + 'px');
+
+      const slot = document.createElement('slot');
+      slot.addEventListener('slotchange', this._onSlotChange);
+      canvas.appendChild(slot);
+      stage.appendChild(canvas);
+
+      // Tap zones (mobile): left third = back, right third = forward.
+      const tapzones = document.createElement('div');
+      tapzones.className = 'tapzones export-hidden';
+      tapzones.setAttribute('aria-hidden', 'true');
+      const tzBack = document.createElement('div');
+      tzBack.className = 'tapzone tapzone--back';
+      const tzMid = document.createElement('div');
+      tzMid.className = 'tapzone tapzone--mid';
+      tzMid.style.pointerEvents = 'none';
+      const tzFwd = document.createElement('div');
+      tzFwd.className = 'tapzone tapzone--fwd';
+      tzBack.addEventListener('click', this._onTapBack);
+      tzFwd.addEventListener('click', this._onTapForward);
+      tapzones.append(tzBack, tzMid, tzFwd);
+
+      // Overlay: compact, solid black, with clickable controls.
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay export-hidden';
+      overlay.setAttribute('role', 'toolbar');
+      overlay.setAttribute('aria-label', 'Deck controls');
+      overlay.innerHTML = `
+        <button class="btn prev" type="button" aria-label="Previous slide" title="Previous (←)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+        </button>
+        <span class="count" aria-live="polite"><span class="current">1</span><span class="sep">/</span><span class="total">1</span></span>
+        <button class="btn next" type="button" aria-label="Next slide" title="Next (→)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>
+        </button>
+        <span class="divider"></span>
+        <button class="btn reset" type="button" aria-label="Reset to first slide" title="Reset (R)">Reset<span class="kbd">R</span></button>
+      `;
+
+      overlay.querySelector('.prev').addEventListener('click', () => this._go(this._index - 1, 'click'));
+      overlay.querySelector('.next').addEventListener('click', () => this._go(this._index + 1, 'click'));
+      overlay.querySelector('.reset').addEventListener('click', () => this._go(0, 'click'));
+
+      this._root.append(style, stage, tapzones, overlay);
+      this._canvas = canvas;
+      this._slot = slot;
+      this._overlay = overlay;
+      this._countEl = overlay.querySelector('.current');
+      this._totalEl = overlay.querySelector('.total');
+    }
+
+    /** @page must live in the document stylesheet — it's a no-op inside
+     *  shadow DOM. Inject/update a single <head> style tag so the print
+     *  sheet matches the design size and Save-as-PDF yields one slide per
+     *  page with no margins. */
+    _syncPrintPageRule() {
+      const id = 'deck-stage-print-page';
+      let tag = document.getElementById(id);
+      if (!tag) {
+        tag = document.createElement('style');
+        tag.id = id;
+        document.head.appendChild(tag);
+      }
+      tag.textContent =
+        '@page { size: ' + this.designWidth + 'px ' + this.designHeight + 'px; margin: 0; } ' +
+        '@media print { html, body { margin: 0 !important; padding: 0 !important; background: none !important; overflow: visible !important; height: auto !important; } ' +
+        '* { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }';
+    }
+
+    _onSlotChange() {
+      this._collectSlides();
+      this._restoreIndex();
+      this._applyIndex({ showOverlay: false, broadcast: true, reason: 'init' });
+      this._fit();
+    }
+
+    _collectSlides() {
+      const assigned = this._slot.assignedElements({ flatten: true });
+      this._slides = assigned.filter((el) => {
+        // Skip template/style/script nodes even if someone slots them.
+        const tag = el.tagName;
+        return tag !== 'TEMPLATE' && tag !== 'SCRIPT' && tag !== 'STYLE';
+      });
+
+      this._slides.forEach((slide, i) => {
+        const n = i + 1;
+        // Determine a label for comment flow: prefer explicit data-label,
+        // then an existing data-screen-label, then first heading, else "Slide".
+        let label = slide.getAttribute('data-label');
+        if (!label) {
+          const existing = slide.getAttribute('data-screen-label');
+          if (existing) {
+            // Strip any leading number the author may have included.
+            label = existing.replace(/^\s*\d+\s*/, '').trim() || existing;
+          }
+        }
+        if (!label) {
+          const h = slide.querySelector('h1, h2, h3, [data-title]');
+          if (h) label = (h.textContent || '').trim().slice(0, 40);
+        }
+        if (!label) label = 'Slide';
+        slide.setAttribute('data-screen-label', `${pad2(n)} ${label}`);
+
+        // Validation attribute for comment flow / auto-checks.
+        if (!slide.hasAttribute('data-om-validate')) {
+          slide.setAttribute('data-om-validate', VALIDATE_ATTR);
+        }
+
+        slide.setAttribute('data-deck-slide', String(i));
+      });
+
+      if (this._totalEl) this._totalEl.textContent = String(this._slides.length || 1);
+      if (this._index >= this._slides.length) this._index = Math.max(0, this._slides.length - 1);
+    }
+
+    _loadNotes() {
+      const tag = document.getElementById('speaker-notes');
+      if (!tag) { this._notes = []; return; }
+      try {
+        const parsed = JSON.parse(tag.textContent || '[]');
+        if (Array.isArray(parsed)) this._notes = parsed;
+      } catch (e) {
+        console.warn('[deck-stage] Failed to parse #speaker-notes JSON:', e);
+        this._notes = [];
+      }
+    }
+
+    _restoreIndex() {
+      try {
+        const raw = localStorage.getItem(this._storageKey);
+        if (raw != null) {
+          const n = parseInt(raw, 10);
+          if (Number.isFinite(n) && n >= 0 && n < this._slides.length) {
+            this._index = n;
+          }
+        }
+      } catch (e) { /* ignore */ }
+    }
+
+    _persistIndex() {
+      try { localStorage.setItem(this._storageKey, String(this._index)); }
+      catch (e) { /* ignore */ }
+    }
+
+    _applyIndex({ showOverlay = true, broadcast = true, reason = 'init' } = {}) {
+      if (!this._slides.length) return;
+      const prev = this._prevIndex == null ? -1 : this._prevIndex;
+      const curr = this._index;
+      this._slides.forEach((s, i) => {
+        if (i === curr) s.setAttribute('data-deck-active', '');
+        else s.removeAttribute('data-deck-active');
+      });
+      if (this._countEl) this._countEl.textContent = String(curr + 1);
+      this._persistIndex();
+
+      if (broadcast) {
+        // (1) Legacy: host-window postMessage for speaker-notes renderers.
+        try { window.postMessage({ slideIndexChanged: curr }, '*'); } catch (e) {}
+
+        // (2) In-page CustomEvent on the <deck-stage> element itself.
+        //     Bubbles and composes out of shadow DOM so slide code can listen:
+        //       document.querySelector('deck-stage').addEventListener('slidechange', e => {
+        //         e.detail.index, e.detail.previousIndex, e.detail.total, e.detail.slide, e.detail.reason
+        //       });
+        const detail = {
+          index: curr,
+          previousIndex: prev,
+          total: this._slides.length,
+          slide: this._slides[curr] || null,
+          previousSlide: prev >= 0 ? (this._slides[prev] || null) : null,
+          reason: reason, // 'init' | 'keyboard' | 'click' | 'tap' | 'api'
+        };
+        this.dispatchEvent(new CustomEvent('slidechange', {
+          detail,
+          bubbles: true,
+          composed: true,
+        }));
+      }
+
+      this._prevIndex = curr;
+      if (showOverlay) this._flashOverlay();
+    }
+
+    _flashOverlay() {
+      if (!this._overlay) return;
+      this._overlay.setAttribute('data-visible', '');
+      if (this._hideTimer) clearTimeout(this._hideTimer);
+      this._hideTimer = setTimeout(() => {
+        this._overlay.removeAttribute('data-visible');
+      }, OVERLAY_HIDE_MS);
+    }
+
+    _fit() {
+      if (!this._canvas) return;
+      // PPTX export sets noscale so the DOM capture sees authored-size
+      // geometry — the scaled canvas is in shadow DOM, so the exporter's
+      // resetTransformSelector can't reach .canvas.style.transform directly.
+      if (this.hasAttribute('noscale')) {
+        this._canvas.style.transform = 'none';
+        return;
+      }
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const s = Math.min(vw / this.designWidth, vh / this.designHeight);
+      this._canvas.style.transform = `scale(${s})`;
+    }
+
+    _onResize() { this._fit(); }
+
+    _onMouseMove() {
+      // Keep overlay visible while mouse moves; hide after idle.
+      this._flashOverlay();
+    }
+
+    _onTapBack(e) {
+      e.preventDefault();
+      this._go(this._index - 1, 'tap');
+    }
+
+    _onTapForward(e) {
+      e.preventDefault();
+      this._go(this._index + 1, 'tap');
+    }
+
+    _onKey(e) {
+      // Ignore when the user is typing.
+      const t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const key = e.key;
+      let handled = true;
+
+      if (key === 'ArrowRight' || key === 'PageDown' || key === ' ' || key === 'Spacebar') {
+        this._go(this._index + 1, 'keyboard');
+      } else if (key === 'ArrowLeft' || key === 'PageUp') {
+        this._go(this._index - 1, 'keyboard');
+      } else if (key === 'Home') {
+        this._go(0, 'keyboard');
+      } else if (key === 'End') {
+        this._go(this._slides.length - 1, 'keyboard');
+      } else if (key === 'r' || key === 'R') {
+        this._go(0, 'keyboard');
+      } else if (/^[0-9]$/.test(key)) {
+        // 1..9 jump to that slide; 0 jumps to 10.
+        const n = key === '0' ? 9 : parseInt(key, 10) - 1;
+        if (n < this._slides.length) this._go(n, 'keyboard');
+      } else {
+        handled = false;
+      }
+
+      if (handled) {
+        e.preventDefault();
+        this._flashOverlay();
+      }
+    }
+
+    _go(i, reason = 'api') {
+      if (!this._slides.length) return;
+      const clamped = Math.max(0, Math.min(this._slides.length - 1, i));
+      if (clamped === this._index) {
+        this._flashOverlay();
+        return;
+      }
+      this._index = clamped;
+      this._applyIndex({ showOverlay: true, broadcast: true, reason });
+    }
+
+    // Public API ------------------------------------------------------------
+
+    /** Current slide index (0-based). */
+    get index() { return this._index; }
+    /** Total slide count. */
+    get length() { return this._slides.length; }
+    /** Programmatically navigate. */
+    goTo(i) { this._go(i, 'api'); }
+    next() { this._go(this._index + 1, 'api'); }
+    prev() { this._go(this._index - 1, 'api'); }
+    reset() { this._go(0, 'api'); }
+  }
+
+  if (!customElements.get('deck-stage')) {
+    customElements.define('deck-stage', DeckStage);
+  }
+})();
+
+</script>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ============ SLIDE 1 — COVER ============ -->
+  <section class="slide" data-label="Cover">
+    <!-- signal bars decoration -->
+    <div style="position:absolute; right:0; top:0; bottom:0; width:46%; z-index:1; pointer-events:none;">
+      <!-- Concentric radar arcs -->
+      <svg viewBox="0 0 900 1080" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%;">
+        <defs>
+          <radialGradient id="rg1" cx="80%" cy="50%" r="60%">
+            <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.22"/>
+            <stop offset="60%" stop-color="#3b82f6" stop-opacity="0.04"/>
+            <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="900" height="1080" fill="url(#rg1)"/>
+        <g fill="none" stroke="#3b82f6" stroke-opacity="0.22" stroke-width="1">
+          <circle cx="780" cy="540" r="120"/>
+          <circle cx="780" cy="540" r="240"/>
+          <circle cx="780" cy="540" r="380"/>
+          <circle cx="780" cy="540" r="540"/>
+          <circle cx="780" cy="540" r="720"/>
+        </g>
+        <g fill="#3b82f6">
+          <circle cx="780" cy="540" r="4"/>
+          <circle cx="660" cy="540" r="3" opacity="0.85"/>
+          <circle cx="860" cy="360" r="2.5" opacity="0.7"/>
+          <circle cx="540" cy="680" r="2.5" opacity="0.6"/>
+          <circle cx="400" cy="420" r="2" opacity="0.5"/>
+          <circle cx="240" cy="780" r="2" opacity="0.4"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="wordmark" style="font-size:22px; letter-spacing:0.18em;"><span class="dot" style="width:12px;height:12px;"></span>RISKITERA</span>
+        <span class="crumb"><span>DEMO DAY</span><span class="sep">·</span><span>ABR 2026</span></span>
+      </div>
+
+      <!-- Oversized brand wordmark -->
+      <div style="margin-top: 56px; position:relative; z-index:2;">
+        <div style="display:flex; align-items:center; gap:28px; margin-bottom:28px;">
+          <span class="radar-dot" data-anim="bloom" style="--d:0.1s; display:inline-block; width:14px; height:14px; border-radius:999px; background:var(--accent);"></span>
+          <h1 data-anim="rise" style="--d:0.2s; margin:0; font-size:220px; line-height:0.9; letter-spacing:-0.045em; font-weight:500;">Riskitera</h1>
+        </div>
+        <div data-anim="wipe" style="--d:0.7s; font-family:var(--mono); font-size:14px; letter-spacing:0.2em; color:var(--accent); text-transform:uppercase; margin-bottom:28px; display:flex; align-items:center; gap:16px;">
+          <span style="display:inline-block; width:48px; height:1px; background:var(--accent);"></span>
+          COMPLIANCE CONTINUO PARA CIBERSEGURIDAD REGULADA
+        </div>
+        <h2 class="h2" data-anim="rise" style="--d:0.95s; font-size:82px; letter-spacing:-0.028em; max-width:1180px;">
+          Del compliance <span style="color:var(--accent);">por foto</span><br/>
+          al control continuo.
+        </h2>
+
+        <p class="body" data-anim="fade" style="--d:1.3s; max-width:860px; margin-top:36px; font-size:22px; color:var(--ink-dim);">
+          Plataforma de gestión de riesgos, compliance y operación<br/>
+          para marcos normativos en ciberseguridad.
+        </p>
+
+        <div style="display:flex; gap:10px; margin-top:44px; flex-wrap:wrap;">
+          <span class="pill" data-anim="rise" style="--d:1.5s;"><span class="dot"></span>NIS2</span>
+          <span class="pill" data-anim="rise" style="--d:1.6s;"><span class="dot"></span>DORA</span>
+          <span class="pill" data-anim="rise" style="--d:1.7s;"><span class="dot"></span>ISO 27001</span>
+          <span class="pill" data-anim="rise" style="--d:1.8s;"><span class="dot"></span>SOC</span>
+        </div>
+      </div>
+
+      <div class="chrome-bottom">
+        <span>RISKITERA · DEMO DAY 2026</span>
+        <span class="tag">01 / 11</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 2 — PROBLEM ============ -->
+  <section class="slide" data-label="Problema">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="wordmark"><span class="dot"></span>RISKITERA</span>
+        <span class="crumb"><span>01 · PROBLEMA</span><span class="sep">·</span><span>SPREADSHEETS NO ESCALAN</span></span>
+      </div>
+
+      <div style="margin-top:36px; display:grid; grid-template-columns: 1.1fr 1fr; gap:72px; align-items:start; position:relative; z-index:2;">
+        <div>
+          <p class="kicker" data-anim="left" style="--d:0.05s;">El problema</p>
+          <h2 class="h1" data-anim="rise" style="--d:0.15s; font-size:86px;">
+            El compliance se ejecuta como un <span style="color:var(--accent);">proyecto</span>.<br/>
+            El riesgo es <span style="font-family:var(--serif); font-style:italic; font-weight:400;">continuo</span>.
+          </h2>
+          <p class="body" style="margin-top:28px; max-width:640px;">
+            Riesgos, controles y evidencias cambian cada día. Las auditorías "por foto" ya no son suficientes — y el coste de errar se multiplica bajo NIS2 y DORA.
+          </p>
+        </div>
+
+        <!-- Tool sprawl illustration -->
+        <div data-anim="scale" style="--d:0.5s; background:var(--panel); border:1px solid var(--line-2); border-radius:16px; padding:32px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:22px;">
+            <span class="mono" style="font-size:16px; letter-spacing:0.18em; color:var(--ink); text-transform:uppercase; font-weight:600;">STACK ACTUAL</span>
+            <span class="mono" style="font-size:15px; color:var(--bad); font-weight:500;">● FRAGMENTADO</span>
+          </div>
+          <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;">
+            <div style="padding:18px 14px; border:1px solid var(--line-2); border-radius:10px; display:flex; flex-direction:column; align-items:center; gap:10px; background:var(--panel-2);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+              <span class="mono" style="font-size:16px; color:var(--ink);">Excel</span>
+            </div>
+            <div style="padding:18px 14px; border:1px solid var(--line-2); border-radius:10px; display:flex; flex-direction:column; align-items:center; gap:10px; background:var(--panel-2);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 4v6c0 5-4 9-9 10-5-1-9-5-9-10V6l9-4z"/></svg>
+              <span class="mono" style="font-size:16px; color:var(--ink);">GRC legacy</span>
+            </div>
+            <div style="padding:18px 14px; border:1px solid var(--line-2); border-radius:10px; display:flex; flex-direction:column; align-items:center; gap:10px; background:var(--panel-2);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              <span class="mono" style="font-size:16px; color:var(--ink);">Jira</span>
+            </div>
+            <div style="padding:18px 14px; border:1px solid var(--line-2); border-radius:10px; display:flex; flex-direction:column; align-items:center; gap:10px; background:var(--panel-2);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              <span class="mono" style="font-size:16px; color:var(--ink);">Drive</span>
+            </div>
+            <div style="padding:18px 14px; border:1px solid var(--line-2); border-radius:10px; display:flex; flex-direction:column; align-items:center; gap:10px; background:var(--panel-2);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7v10c0 2 1 3 3 3h10c2 0 3-1 3-3V7c0-2-1-3-3-3H7c-2 0-3 1-3 3z"/><path d="M9 4v16M4 12h16"/></svg>
+              <span class="mono" style="font-size:16px; color:var(--ink);">SharePoint</span>
+            </div>
+            <div style="padding:18px 14px; border:1px solid var(--line-2); border-radius:10px; display:flex; flex-direction:column; align-items:center; gap:10px; background:var(--panel-2);">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+              <span class="mono" style="font-size:16px; color:var(--ink);">Email</span>
+            </div>
+          </div>
+          <div style="margin-top:22px; padding-top:20px; border-top:1px dashed var(--line-2); display:flex; justify-content:space-between; align-items:center;">
+            <span class="mono" style="font-size:16px; color:var(--ink-dim); font-weight:500;">TIEMPO DE REPORTING</span>
+            <span class="mono" style="font-size:22px; color:var(--bad); font-weight:600;">SEMANAS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Three pillars -->
+      <div style="margin-top:56px; display:grid; grid-template-columns: repeat(3, 1fr); gap:20px; position:relative; z-index:2;">
+        <div class="card" data-anim="rise" style="--d:0.7s;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+            <span class="idx">01 · REGULACIÓN</span>
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent); flex-shrink:0;">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/>
+            </svg>
+          </div>
+          <h3 style="font-size:36px; font-weight:600;">Auditorías con trazabilidad</h3>
+          <p>NIS2 y DORA elevan exigencias de gestión de riesgos, reporting e incidentes. La evidencia debe ser trazable.</p>
+        </div>
+        <div class="card" data-anim="rise" style="--d:0.85s;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+            <span class="idx">02 · FRAGMENTACIÓN</span>
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent); flex-shrink:0;">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          </div>
+          <h3 style="font-size:36px; font-weight:600;">Herramientas dispersas</h3>
+          <p>Riesgos, controles, tickets y evidencias viven en Excel, GRC legacy, Jira y Drive — sin hilo conductor.</p>
+        </div>
+        <div class="card" data-anim="rise" style="--d:1s;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+            <span class="idx">03 · COSTE Y VELOCIDAD</span>
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent); flex-shrink:0;">
+              <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+          <h3 style="font-size:36px; font-weight:600;">Semanas de reporting</h3>
+          <p>La recolección de evidencia y reporting consumen semanas. Los errores aumentan exposición y coste de auditoría.</p>
+        </div>
+      </div>
+
+      <div class="chrome-bottom">
+        <span>"El compliance no debería ser una carrera de última hora."</span>
+        <span class="tag">02 / 11</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 3 — SOLUTION ============ -->
+  <section class="slide" data-label="Solucion">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="wordmark"><span class="dot"></span>RISKITERA</span>
+        <span class="crumb"><span>02 · SOLUCIÓN</span><span class="sep">·</span><span>PROPUESTA DE VALOR</span></span>
+      </div>
+
+      <div style="margin-top:32px; position:relative; z-index:2;">
+        <p class="kicker" data-anim="left" style="--d:0.05s;">Nuestra solución</p>
+        <h2 class="h1" data-anim="rise" style="--d:0.15s; font-size:96px; max-width:1480px;">
+          Una plataforma.<br/>
+          Tres capas que hablan entre sí.
+        </h2>
+      </div>
+
+      <!-- Three stacked layers -->
+      <div style="margin-top:50px; display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; position:relative; z-index:2;">
+        <!-- Layer 1 -->
+        <div class="card" data-anim="rise" style="--d:0.45s; padding:32px 32px 28px; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px;">
+            <span class="mono" style="font-size:15px; letter-spacing:0.18em; color:var(--accent); font-weight:600;">CAPA · 01</span>
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent)">
+              <path d="M12 2l9 4v6c0 5-4 9-9 10-5-1-9-5-9-10V6l9-4z"/>
+              <path d="M8 12l3 3 5-6"/>
+            </svg>
+          </div>
+          <h3 style="font-size:40px; font-weight:600;">Riesgo &amp; Marco</h3>
+          <p style="font-size:20px;">Mapeo de controles contra NIS2, DORA, ISO 27001 y SOC. Un modelo unico, packs listos de fabrica.</p>
+          <div style="margin-top:24px; display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="mono" style="font-size:14px; padding:6px 12px; background:var(--panel-2); border-radius:6px; color:var(--ink);">NIS2</span>
+            <span class="mono" style="font-size:14px; padding:6px 12px; background:var(--panel-2); border-radius:6px; color:var(--ink);">DORA</span>
+            <span class="mono" style="font-size:14px; padding:6px 12px; background:var(--panel-2); border-radius:6px; color:var(--ink);">ISO 27001</span>
+            <span class="mono" style="font-size:14px; padding:6px 12px; background:var(--panel-2); border-radius:6px; color:var(--ink);">SOC</span>
+          </div>
+        </div>
+
+        <!-- Layer 2 -->
+        <div class="card" data-anim="rise" style="--d:0.6s; padding:32px 32px 28px; border-color: rgba(59, 130, 246, 0.35); background: linear-gradient(180deg, rgba(59, 130, 246, 0.06), transparent);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px;">
+            <span class="mono" style="font-size:15px; letter-spacing:0.18em; color:var(--accent); font-weight:600;">CAPA · 02</span>
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent)">
+              <path d="M3 12h4l3-8 4 16 3-8h4"/>
+            </svg>
+          </div>
+          <h3 style="font-size:40px; font-weight:600;">Evidencia automatica</h3>
+          <p style="font-size:20px;">Conectores que recogen evidencia en continuo desde tu stack: cloud, identidad, endpoint, ticketing.</p>
+          <div style="margin-top:24px; display:flex; align-items:center; gap:12px;">
+            <span class="mono" style="font-size:34px; color:var(--accent); font-weight:600; letter-spacing:-0.02em;">10+</span>
+            <span class="mono" style="font-size:14px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.12em;">conectores<br/>en roadmap</span>
+          </div>
+        </div>
+
+        <!-- Layer 3 -->
+        <div class="card" data-anim="rise" style="--d:0.75s; padding:32px 32px 28px; background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:28px;">
+            <span class="mono" style="font-size:15px; letter-spacing:0.18em; color:var(--accent); font-weight:600;">CAPA · 03</span>
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent)">
+              <rect x="3" y="4" width="18" height="16" rx="2"/>
+              <path d="M3 10h18M8 4v4M16 4v4"/>
+            </svg>
+          </div>
+          <h3 style="font-size:40px; font-weight:600;">Operacion &amp; Reporting</h3>
+          <p style="font-size:20px;">Orquesta incidentes, tareas y reporting regulatorio. Informacion inmediata, operacion coordinada.</p>
+          <div style="margin-top:24px; padding:14px 16px; background:var(--panel-2); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+            <span class="mono" style="font-size:15px; color:var(--ink-dim); font-weight:500;">REPORT SLA</span>
+            <span class="mono" style="font-size:15px; color:var(--ok); font-weight:600;">● ON TIME</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tagline bar -->
+      <div data-anim="fade" style="--d:1s; margin-top:40px; padding:22px 28px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:center; position:relative; z-index:2;">
+        <span class="lede" style="font-size:26px;">Compliance continuo, información inmediata, operación coordinada — en <span style="color:var(--accent); font-style:normal; font-family:var(--sans); font-weight:500;">semanas</span>, no en trimestres.</span>
+      </div>
+
+      <div class="chrome-bottom">
+        <span>QUÉ HACEMOS · PROPUESTA DE VALOR</span>
+        <span class="tag">03 / 11</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 4 — DEMO (video) ============ -->
+  <section class="slide" data-label="Demo">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="wordmark"><span class="dot"></span>RISKITERA</span>
+        <span class="crumb"><span>03 · DEMO</span><span class="sep">·</span><span>EL PRODUCTO EN FUNCIONAMIENTO</span></span>
+      </div>
+
+      <div style="margin-top:28px; position:relative; z-index:2;">
+        <p class="kicker" data-anim="left" style="--d:0.05s;">Demo del producto</p>
+        <h2 class="h1" data-anim="rise" style="--d:0.15s; font-size:82px; max-width:1500px;">
+          Así se ve el <span style="color:var(--accent);">control continuo</span>.
+        </h2>
+      </div>
+
+      <!-- Video stage: YouTube embed with browser chrome -->
+      <div data-anim="scale" style="--d:0.4s; margin-top:28px; position:relative; z-index:2; display:grid; grid-template-columns:1.6fr 1fr; gap:24px; align-items:start;">
+        <!-- Main video -->
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; padding:10px 16px; background:var(--panel-2); border:1px solid var(--line-2); border-bottom:none; border-radius:14px 14px 0 0;">
+            <span style="width:10px; height:10px; border-radius:999px; background:#ff5f57;"></span>
+            <span style="width:10px; height:10px; border-radius:999px; background:#febc2e;"></span>
+            <span style="width:10px; height:10px; border-radius:999px; background:#28c840;"></span>
+            <div class="mono" style="margin-left:12px; padding:4px 12px; background:var(--bg); border:1px solid var(--line); border-radius:8px; font-size:11px; color:var(--ink-dim); flex:1; max-width:320px;">
+              youtube.com/@raboriskitera
+            </div>
+            <span class="mono" style="font-size:10px; letter-spacing:0.18em; color:var(--ink-mute); text-transform:uppercase;">OVERVIEW</span>
+          </div>
+          <div style="position:relative; width:100%; padding-bottom:56.25%; background:#000; border:1px solid var(--line-2); border-radius:0 0 14px 14px; overflow:hidden;">
+            <iframe
+              id="yt-overview"
+              src="https://www.youtube.com/embed/tvICfU8Dz04?rel=0&modestbranding=1&enablejsapi=1"
+              title="Riskitera Overview"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              style="position:absolute; top:0; left:0; width:100%; height:100%; border:0; z-index:10;"
+            ></iframe>
+          </div>
+        </div>
+
+        <!-- Video links panel -->
+        <div data-anim="rise" style="--d:0.7s;">
+          <div class="mono" style="font-size:15px; letter-spacing:0.18em; color:var(--ink); text-transform:uppercase; font-weight:600; margin-bottom:16px;">Demos por modulo</div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <a href="https://youtube.com/watch?v=tvICfU8Dz04" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:16px; padding:18px 20px; background:rgba(59, 130, 246, 0.08); border:1px solid var(--accent); border-radius:10px; text-decoration:none; color:var(--ink);">
+              <div style="flex-shrink:0; width:42px; height:42px; border-radius:10px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div>
+                <div style="font-size:20px; font-weight:600;">Overview</div>
+                <div class="mono" style="font-size:13px; color:var(--ink-dim); margin-top:3px;">GRC + SOC + CTI</div>
+              </div>
+            </a>
+            <a href="https://youtube.com/watch?v=ET7S7enyBgk" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:16px; padding:18px 20px; background:var(--panel); border:1px solid var(--line-2); border-radius:10px; text-decoration:none; color:var(--ink);">
+              <div style="flex-shrink:0; width:42px; height:42px; border-radius:10px; background:var(--panel-2); border:1px solid var(--line-2); color:var(--accent); display:flex; align-items:center; justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div>
+                <div style="font-size:20px; font-weight:600;">GRC</div>
+                <div class="mono" style="font-size:13px; color:var(--ink-dim); margin-top:3px;">Riesgos + Compliance</div>
+              </div>
+            </a>
+            <a href="https://youtube.com/watch?v=paGiydS67j0" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:16px; padding:18px 20px; background:var(--panel); border:1px solid var(--line-2); border-radius:10px; text-decoration:none; color:var(--ink);">
+              <div style="flex-shrink:0; width:42px; height:42px; border-radius:10px; background:var(--panel-2); border:1px solid var(--line-2); color:var(--accent); display:flex; align-items:center; justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div>
+                <div style="font-size:20px; font-weight:600;">SOC</div>
+                <div class="mono" style="font-size:13px; color:var(--ink-dim); margin-top:3px;">Alertas + Incidentes</div>
+              </div>
+            </a>
+            <a href="https://youtube.com/watch?v=_Kg5qXj9tgI" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:16px; padding:18px 20px; background:var(--panel); border:1px solid var(--line-2); border-radius:10px; text-decoration:none; color:var(--ink);">
+              <div style="flex-shrink:0; width:42px; height:42px; border-radius:10px; background:var(--panel-2); border:1px solid var(--line-2); color:var(--accent); display:flex; align-items:center; justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div>
+                <div style="font-size:20px; font-weight:600;">CTI</div>
+                <div class="mono" style="font-size:13px; color:var(--ink-dim); margin-top:3px;">Threat Intelligence</div>
+              </div>
+            </a>
+          </div>
+          <a href="https://www.youtube.com/@Riskitera-m6y" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:center; gap:10px; margin-top:18px; padding:14px 20px; background:rgba(255,0,0,0.08); border:1px solid rgba(255,0,0,0.3); border-radius:10px; text-decoration:none; color:var(--ink); transition:background 0.2s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF0000"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <span style="font-size:16px; font-weight:600;">Canal YouTube Riskitera</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="chrome-bottom">
+        <span>DEMO · PRODUCTO EN ACCIÓN</span>
+        <span class="tag">04 / 11</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 5 — MARKET ============ -->
+  <section class="slide" data-label="Mercado">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="wordmark"><span class="dot"></span>RISKITERA</span>
+        <span class="crumb"><span>04 · MERCADO</span><span class="sep">·</span><span>TAILWINDS REGULATORIOS · UE</span></span>
+      </div>
+
+      <div style="margin-top:32px; display:grid; grid-template-columns: 1fr 1.1fr; gap:80px; position:relative; z-index:2;">
+        <!-- LEFT: market size nested circles -->
+        <div>
+          <p class="kicker" data-anim="left" style="--d:0.05s;">Tamaño de mercado · 2026</p>
+          <h2 class="h2" data-anim="rise" style="--d:0.15s; font-size:56px; margin-bottom:40px;">Un mercado grande, con viento de cola regulatorio.</h2>
+
+          <div style="position:relative; width:100%; aspect-ratio: 1.1/1; max-width:560px;">
+            <!-- TAM -->
+            <div data-anim="scale" style="--d:0.4s; position:absolute; inset:0; border:1px solid var(--line-2); border-radius:999px; background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.03), transparent 70%); display:flex; align-items:flex-start; justify-content:center; padding-top:24px;">
+              <div style="text-align:center;">
+                <div class="mono" style="font-size:16px; font-weight:600; letter-spacing:0.22em; color:var(--ink); text-transform:uppercase;">TAM</div>
+                <div class="stat-num" style="font-size:64px; color:var(--ink);">US$70B</div>
+                <div style="font-family:var(--mono); font-size:15px; color:var(--ink-dim); margin-top:4px;">Global eGRC</div>
+              </div>
+            </div>
+            <!-- SAM -->
+            <div data-anim="scale" style="--d:0.65s; position:absolute; left:18%; top:22%; width:64%; height:64%; border:1px solid var(--line-2); border-radius:999px; background:var(--panel); display:flex; align-items:flex-start; justify-content:center; padding-top:26px;">
+              <div style="text-align:center;">
+                <div class="mono" style="font-size:15px; font-weight:600; letter-spacing:0.22em; color:var(--ink); text-transform:uppercase;">SAM</div>
+                <div class="stat-num" style="font-size:54px; color:var(--ink);">US$16B</div>
+                <div style="font-family:var(--mono); font-size:14px; color:var(--ink-dim); margin-top:4px;">Europa · Plataformas GRC</div>
+              </div>
+            </div>
+            <!-- SOM -->
+            <div data-anim="bloom" style="--d:0.95s; position:absolute; left:35%; top:40%; width:30%; height:30%; border:2px solid var(--accent); border-radius:999px; background: rgba(59, 130, 246, 0.18); display:flex; align-items:center; justify-content:center;">
+              <div style="text-align:center;">
+                <div class="mono" style="font-size:14px; font-weight:600; letter-spacing:0.22em; color:var(--accent); text-transform:uppercase;">SOM</div>
+                <div class="stat-num" style="font-size:32px; color:var(--accent);">US$24M</div>
+              </div>
+            </div>
+          </div>
+          <p class="mono" style="font-size:16px; color:var(--ink-dim); margin-top:20px; letter-spacing:0.12em;">SOM · CAPTACIÓN ESTIMADA A 5 AÑOS</p>
+        </div>
+
+        <!-- RIGHT: regulatory timeline -->
+        <div>
+          <p class="kicker" data-anim="left" style="--d:0.4s;">Señales regulatorias</p>
+          <h2 class="h2" data-anim="rise" style="--d:0.5s; font-size:40px; margin-bottom:30px;">La evidencia debe ser trazable. El control, continuo.</h2>
+
+          <!-- Timeline -->
+          <div style="position:relative; padding-left:22px; border-left:1px dashed var(--line-2);">
+            <div data-anim="left" style="--d:0.75s; position:relative; padding-bottom:36px;">
+              <div style="position:absolute; left:-28px; top:6px; width:12px; height:12px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 5px rgba(59, 130, 246, 0.15);"></div>
+              <div class="mono" style="font-size:13px; color:var(--accent); letter-spacing:0.14em;">18 OCT 2024</div>
+              <div style="font-size:28px; font-weight:500; margin-top:4px;">NIS2 en aplicación</div>
+              <div class="body" style="margin-top:6px; font-size:18px;">Directiva europea de ciberseguridad. Alcance ampliado, sanciones elevadas.</div>
+            </div>
+            <div data-anim="left" style="--d:0.95s; position:relative; padding-bottom:36px;">
+              <div style="position:absolute; left:-28px; top:6px; width:12px; height:12px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 5px rgba(59, 130, 246, 0.15);"></div>
+              <div class="mono" style="font-size:13px; color:var(--accent); letter-spacing:0.14em;">17 ENE 2025</div>
+              <div style="font-size:28px; font-weight:500; margin-top:4px;">DORA en aplicación</div>
+              <div class="body" style="margin-top:6px; font-size:18px;">Resiliencia operativa digital para el sector financiero europeo.</div>
+            </div>
+            <div data-anim="left" style="--d:1.15s; position:relative;">
+              <div style="position:absolute; left:-28px; top:6px; width:12px; height:12px; border-radius:999px; background:var(--panel); border:1px solid var(--line-2);"></div>
+              <div class="mono" style="font-size:13px; color:var(--ink-mute); letter-spacing:0.14em;">2025 — 2027</div>
+              <div style="font-size:28px; font-weight:500; margin-top:4px;">Gasto info-sec ↑</div>
+              <div class="body" style="margin-top:6px; font-size:18px;">ENISA reporta aumento sostenido de inversión y mayor peso sobre IT.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome-bottom">
+        <span>Fuentes: Grand View Research · IMARC · ENISA</span>
+        <span class="tag">05 / 11</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 5 — TRACTION ============ -->
+  <section class="slide" data-label="Traccion">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="wordmark"><span class="dot"></span>RISKITERA</span>
+        <span class="crumb"><span>05 · ESTADO Y HITOS</span><span class="sep">·</span><span>ABRIL 2026</span></span>
+      </div>
+
+      <div style="margin-top:32px; position:relative; z-index:2;">
+        <p class="kicker" data-anim="left" style="--d:0.05s;">Dónde estamos</p>
+        <h2 class="h1" data-anim="rise" style="--d:0.15s; font-size:84px;">Demanda validada,<br/><span style="color:var(--accent);">producto en pilotos.</span></h2>
+      </div>
+
+      <!-- Validación temprana — 3 señales -->
+      <div style="margin-top:44px; display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; position:relative; z-index:2;">
+        <div class="card" data-anim="rise" style="--d:0.30s; padding:28px 28px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+            <div class="stat-label" style="font-size:14px; color:var(--ink-dim);">SEÑAL 01 · REGULACIÓN</div>
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent); flex-shrink:0;">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div style="font-size:30px; font-weight:600; line-height:1.2; color:var(--ink);">Demanda <span style="color:var(--accent);">no opcional</span></div>
+          <div style="margin-top:10px; font-size:16px; color:var(--ink-mute); line-height:1.5;">NIS2 en vigor desde oct 2024 · DORA aplica desde ene 2025. Multas de hasta €10M o 2% de facturación.</div>
+        </div>
+        <div class="card" data-anim="rise" style="--d:0.45s; padding:28px 28px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+            <div class="stat-label" style="font-size:14px; color:var(--ink-dim);">SEÑAL 02 · CONVERSACIONES</div>
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent); flex-shrink:0;">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+          </div>
+          <div style="font-size:30px; font-weight:600; line-height:1.2; color:var(--ink);">Pipeline <span style="color:var(--accent);">cualitativo</span></div>
+          <div style="margin-top:10px; font-size:16px; color:var(--ink-mute); line-height:1.5;">Conversaciones abiertas con CISOs en banca, seguros y utilities. Mismo dolor: evidencias dispersas, auditorías manuales.</div>
+        </div>
+        <div class="card" data-anim="rise" style="--d:0.60s; padding:28px 28px;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+            <div class="stat-label" style="font-size:14px; color:var(--ink-dim);">SEÑAL 03 · PRODUCTO</div>
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent); flex-shrink:0;">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/>
+            </svg>
+          </div>
+          <div style="font-size:30px; font-weight:600; line-height:1.2; color:var(--ink);">Pilotos <span style="color:var(--accent);">en curso</span></div>
+          <div style="margin-top:10px; font-size:16px; color:var(--ink-mute); line-height:1.5;">Design partners validando el módulo de evidencias inmutables (SHA-256 + cadena de custodia).</div>
+        </div>
+      </div>
+
+      <!-- Timeline de hitos -->
+      <div data-anim="rise" style="--d:0.75s; margin-top:32px; padding:28px 32px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,0.02); position:relative; z-index:2;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:22px;">
+          <span class="mono" style="font-size:16px; color:var(--ink); letter-spacing:0.14em; text-transform:uppercase; font-weight:600;">Roadmap 12 meses</span>
+          <span class="mono" style="font-size:14px; color:var(--ink-dim); letter-spacing:0.12em;">2026 — 2027</span>
+        </div>
+        <div style="position:relative; display:grid; grid-template-columns: repeat(3, 1fr); gap:0;">
+          <!-- línea base -->
+          <div style="position:absolute; top:8px; left:6%; right:6%; height:1px; background:linear-gradient(90deg, var(--accent), var(--line) 50%, var(--line));"></div>
+          <div style="padding-right:24px; position:relative;">
+            <div style="width:14px; height:14px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(0,0,0,0.6), 0 0 20px var(--accent);"></div>
+            <div class="mono" style="margin-top:14px; font-size:15px; color:var(--accent); letter-spacing:0.12em; font-weight:600;">Q2 2026 · AHORA</div>
+            <div style="margin-top:8px; font-size:22px; font-weight:500; color:var(--ink); line-height:1.35;">MVP cerrado · primeros pilotos firmados</div>
+          </div>
+          <div style="padding:0 24px; position:relative;">
+            <div style="width:14px; height:14px; border-radius:50%; background:transparent; border:1.5px solid var(--ink-dim); box-shadow:0 0 0 4px rgba(0,0,0,0.6);"></div>
+            <div class="mono" style="margin-top:14px; font-size:15px; color:var(--ink-dim); letter-spacing:0.12em; font-weight:600;">Q3 2026</div>
+            <div style="margin-top:8px; font-size:22px; font-weight:500; color:var(--ink); line-height:1.35;">5 design partners NIS2/DORA · ISO 27001 en proceso</div>
+          </div>
+          <div style="padding-left:24px; position:relative;">
+            <div style="width:14px; height:14px; border-radius:50%; background:transparent; border:1.5px solid var(--ink-dim); box-shadow:0 0 0 4px rgba(0,0,0,0.6);"></div>
+            <div class="mono" style="margin-top:14px; font-size:15px; color:var(--ink-dim); letter-spacing:0.12em; font-weight:600;">Q4 2026 → Q1 2027</div>
+            <div style="margin-top:8px; font-size:22px; font-weight:500; color:var(--ink); line-height:1.35;">Lanzamiento GTM · expansion a sectores regulados</div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="chrome-bottom">
+        <span>ENFOQUE — BANCA · SEGUROS · UTILITIES BAJO NIS2/DORA</span>
+        <span class="tag">06 / 11</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 6 — COMPETITION ============ -->
+  <section class="slide" data-label="Competencia">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="wordmark"><span class="dot"></span>RISKITERA</span>
+        <span class="crumb"><span>06 · POSICIONAMIENTO</span><span class="sep">·</span><span>COMPETENCIA</span></span>
+      </div>
+
+      <div style="margin-top:28px; position:relative; z-index:2;">
+        <p class="kicker" data-anim="left" style="--d:0.05s;">Posicionamiento</p>
+        <h2 class="h2" data-anim="rise" style="--d:0.15s; font-size:54px; max-width:1280px;">
+          Mid-market regulado: packs normativos, evidencia automática, UX que escala.
+        </h2>
+      </div>
+
+      <!-- Comp table -->
+      <div data-anim="rise" style="--d:0.4s; margin-top:36px; position:relative; z-index:2; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:var(--panel);">
+        <div style="display:grid; grid-template-columns: 1.4fr 0.9fr 0.9fr 0.7fr 1.1fr; padding:20px 24px; background:var(--panel-2); font-family:var(--mono); font-size:15px; font-weight:600; letter-spacing:0.14em; color:var(--ink); text-transform:uppercase;">
+          <span>Producto</span>
+          <span style="text-align:center;">Packs NIS2/DORA</span>
+          <span style="text-align:center;">Evidencia automática</span>
+          <span style="text-align:center;">UX mid-market</span>
+          <span style="text-align:right;">Precio (rango)</span>
+        </div>
+
+        <!-- Rows -->
+        <div style="display:grid; grid-template-columns: 1.4fr 0.9fr 0.9fr 0.7fr 1.1fr; padding:22px 24px; border-top:1px solid var(--line); background:rgba(59, 130, 246, 0.08); align-items:center;">
+          <span style="font-size:22px; font-weight:500; color:var(--accent); display:inline-flex; align-items:center; gap:10px;">
+            <span style="width:8px; height:8px; border-radius:999px; background:var(--accent);"></span>
+            Riskitera
+          </span>
+          <span style="text-align:center; font-size:22px; color:var(--ok);">✓</span>
+          <span style="text-align:center; font-size:22px; color:var(--ok);">✓</span>
+          <span style="text-align:center; font-size:22px; color:var(--ok);">✓</span>
+          <span style="text-align:right; font-family:var(--mono); font-size:16px; color:var(--ink);">€€ · 24k–120k /año</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1.4fr 0.9fr 0.9fr 0.7fr 1.1fr; padding:18px 24px; border-top:1px solid var(--line); align-items:center;">
+          <span style="font-size:20px; color:var(--ink);">CyberArrow</span>
+          <span style="text-align:center; font-size:20px; color:var(--ok);">✓</span>
+          <span style="text-align:center; font-size:20px; color:var(--warn);">△</span>
+          <span style="text-align:center; font-size:20px; color:var(--warn);">△</span>
+          <span style="text-align:right; font-family:var(--mono); font-size:15px; color:var(--ink-dim);">€€ · 12k–60k /año</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1.4fr 0.9fr 0.9fr 0.7fr 1.1fr; padding:18px 24px; border-top:1px solid var(--line); align-items:center;">
+          <span style="font-size:20px; color:var(--ink);">GlobalSuite</span>
+          <span style="text-align:center; font-size:20px; color:var(--warn);">△</span>
+          <span style="text-align:center; font-size:20px; color:var(--warn);">△</span>
+          <span style="text-align:center; font-size:20px; color:var(--ok);">✓</span>
+          <span style="text-align:right; font-family:var(--mono); font-size:15px; color:var(--ink-dim);">€€€ · 20k–120k /año</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1.4fr 0.9fr 0.9fr 0.7fr 1.1fr; padding:18px 24px; border-top:1px solid var(--line); align-items:center;">
+          <span style="font-size:20px; color:var(--ink);">ServiceNow IRM/GRC</span>
+          <span style="text-align:center; font-size:20px; color:var(--warn);">△</span>
+          <span style="text-align:center; font-size:20px; color:var(--bad);">✗</span>
+          <span style="text-align:center; font-size:20px; color:var(--warn);">△</span>
+          <span style="text-align:right; font-family:var(--mono); font-size:15px; color:var(--ink-dim);">€€€€ · 80k–300k /año</span>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1.4fr 0.9fr 0.9fr 0.7fr 1.1fr; padding:18px 24px; border-top:1px solid var(--line); align-items:center;">
+          <span style="font-size:20px; color:var(--ink);">Archer IRM</span>
+          <span style="text-align:center; font-size:20px; color:var(--warn);">△</span>
+          <span style="text-align:center; font-size:20px; color:var(--bad);">✗</span>
+          <span style="text-align:center; font-size:20px; color:var(--warn);">△</span>
+          <span style="text-align:right; font-family:var(--mono); font-size:15px; color:var(--ink-dim);">€€€€ · 150k–600k /año</span>
+        </div>
+      </div>
+
+      <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:13px; color:var(--ink-mute); position:relative; z-index:2;">
+        <span>LEYENDA · <span style="color:var(--ok);">✓</span> COMPLETO · <span style="color:var(--warn);">△</span> PARCIAL · <span style="color:var(--bad);">✗</span> NO DISPONIBLE</span>
+        <span>RANGOS ORIENTATIVOS</span>
+      </div>
+
+      <div class="chrome-bottom">
+        <span>ESTRATEGIA · LAND &amp; EXPAND · DISTRIBUCIÓN MSSP Y MAYORISTA</span>
+        <span class="tag">07 / 11</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 7 — GTM ============ -->
+  <section class="slide" data-label="GTM">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="wordmark"><span class="dot"></span>RISKITERA</span>
+        <span class="crumb"><span>07 · GO-TO-MARKET</span><span class="sep">·</span><span>12–18 MESES</span></span>
+      </div>
+
+      <div style="margin-top:28px; position:relative; z-index:2;">
+        <p class="kicker" data-anim="left" style="--d:0.05s;">Go-to-market</p>
+        <h2 class="h1" data-anim="rise" style="--d:0.15s; font-size:82px; max-width:1500px;">
+          Land &amp; expand sobre el mercado regulado europeo.
+        </h2>
+      </div>
+
+      <!-- Horizontal roadmap -->
+      <div style="margin-top:56px; position:relative; z-index:2;">
+        <!-- base line -->
+        <div data-anim="bar" style="--d:0.3s; position:relative; height:2px; background:var(--line); margin:0 40px 32px;">
+          <div style="position:absolute; left:0; top:0; width:100%; height:2px; background:linear-gradient(90deg, var(--accent), var(--line));"></div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:24px;">
+          <!-- Phase 1 -->
+          <div class="card" data-anim="rise" style="--d:0.6s; padding:32px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+              <span class="mono" style="font-size:14px; letter-spacing:0.18em; color:var(--accent); text-transform:uppercase;">FASE 01 · 0–6 MESES</span>
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent); flex-shrink:0;">
+                <circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 10-16 0c0 3 2.7 7 8 11.7z"/>
+              </svg>
+            </div>
+            <h3 style="font-size:40px; font-weight:600; margin-top:4px;">Land en España</h3>
+            <p>Distribución MSSP y mayorista. Packs NIS2/DORA como entrada. Ciclos de cierre cortos.</p>
+            <ul style="list-style:none; padding:0; margin:20px 0 0; display:flex; flex-direction:column; gap:10px;">
+              <li style="display:flex; gap:10px; font-family:var(--mono); font-size:13px; color:var(--ink-dim);">
+                <span style="color:var(--accent);">▸</span> Pilotos → contratos en 8–12 semanas
+              </li>
+              <li style="display:flex; gap:10px; font-family:var(--mono); font-size:13px; color:var(--ink-dim);">
+                <span style="color:var(--accent);">▸</span> Primeros partners MSSP firmados
+              </li>
+            </ul>
+          </div>
+
+          <!-- Phase 2 -->
+          <div class="card" data-anim="rise" style="--d:0.8s; padding:32px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+              <span class="mono" style="font-size:14px; letter-spacing:0.18em; color:var(--accent); text-transform:uppercase;">FASE 02 · 6–12 MESES</span>
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent); flex-shrink:0;">
+                <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+              </svg>
+            </div>
+            <h3 style="font-size:40px; font-weight:600; margin-top:4px;">Expand a DACH</h3>
+            <p>Replicar playbook con partners locales. Head of Sales DACH/EU. <strong style="color:var(--ink);">Foco en sectores regulados.</strong></p>
+            <ul style="list-style:none; padding:0; margin:20px 0 0; display:flex; flex-direction:column; gap:10px;">
+              <li style="display:flex; gap:10px; font-family:var(--mono); font-size:13px; color:var(--ink-dim);">
+                <span style="color:var(--accent);">▸</span> Canal indirecto &gt; 50% pipeline
+              </li>
+              <li style="display:flex; gap:10px; font-family:var(--mono); font-size:13px; color:var(--ink-dim);">
+                <span style="color:var(--accent);">▸</span> Expansión por nuevos marcos
+              </li>
+            </ul>
+          </div>
+
+          <!-- Phase 3 -->
+          <div class="card" data-anim="rise" style="--d:1s; padding:32px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+              <span class="mono" style="font-size:14px; letter-spacing:0.18em; color:var(--accent); text-transform:uppercase;">FASE 03 · 12–18 MESES</span>
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" style="color:var(--accent); flex-shrink:0;">
+                <path d="M12 20V10M18 20V4M6 20v-4"/>
+              </svg>
+            </div>
+            <h3 style="font-size:40px; font-weight:600; margin-top:4px;">Prep. Serie A</h3>
+            <p>Churn bajo demostrado. Eficiencia de CAC con partners. Métricas de expansión maduras.</p>
+            <ul style="list-style:none; padding:0; margin:20px 0 0; display:flex; flex-direction:column; gap:10px;">
+              <li style="display:flex; gap:10px; font-family:var(--mono); font-size:13px; color:var(--ink-dim);">
+                <span style="color:var(--accent);">▸</span> &gt; €100k MRR
+              </li>
+              <li style="display:flex; gap:10px; font-family:var(--mono); font-size:13px; color:var(--ink-dim);">
+                <span style="color:var(--accent);">▸</span> NRR &gt; 110%
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome-bottom">
+        <span>DATOS ACTUALIZADOS A ABRIL 2026</span>
+        <span class="tag">08 / 11</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 8 — ASK / FINANCIALS ============ -->
+  <section class="slide" data-label="Ronda">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="wordmark"><span class="dot"></span>RISKITERA</span>
+        <span class="crumb"><span>08 · RONDA SEED</span><span class="sep">·</span><span>€500K · 6 MESES RUNWAY</span></span>
+      </div>
+
+      <div style="margin-top:32px; display:grid; grid-template-columns: 1.1fr 1fr; gap:60px; position:relative; z-index:2;">
+        <!-- LEFT: the ask -->
+        <div>
+          <p class="kicker" data-anim="left" style="--d:0.05s;">Ronda Seed</p>
+          <div data-anim="scale" style="--d:0.2s; display:flex; align-items:baseline; gap:18px;">
+            <span style="font-size:220px; line-height:0.92; font-weight:500; letter-spacing:-0.04em; color:var(--accent);">€500k</span>
+          </div>
+          <div class="mono" style="font-size:15px; color:var(--ink-dim); letter-spacing:0.08em; text-transform:uppercase; margin-top:8px;">
+            6 MESES DE RUNWAY · CIERRE Q3 2026
+          </div>
+
+          <!-- assumptions row -->
+          <div style="margin-top:44px; display:grid; grid-template-columns: repeat(3, 1fr); gap:18px;">
+            <div style="padding:24px; border:1px solid var(--line); border-radius:10px;">
+              <div class="mono" style="font-size:15px; color:var(--ink-dim); letter-spacing:0.14em; text-transform:uppercase; font-weight:500;">MARGEN BRUTO</div>
+              <div style="font-size:48px; font-weight:600; margin-top:8px;">85%</div>
+            </div>
+            <div style="padding:24px; border:1px solid var(--line); border-radius:10px;">
+              <div class="mono" style="font-size:15px; color:var(--ink-dim); letter-spacing:0.14em; text-transform:uppercase; font-weight:500;">EXPANSIÓN</div>
+              <div style="font-size:28px; font-weight:600; margin-top:8px; line-height:1.2;">Cuentas<br/>+ integraciones</div>
+            </div>
+            <div style="padding:24px; border:1px solid var(--line); border-radius:10px;">
+              <div class="mono" style="font-size:15px; color:var(--ink-dim); letter-spacing:0.14em; text-transform:uppercase; font-weight:500;">CAC</div>
+              <div style="font-size:28px; font-weight:600; margin-top:8px; line-height:1.2;">Baja con<br/>partners</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: milestones -->
+        <div>
+          <p class="kicker" data-anim="left" style="--d:0.4s;">Hitos con la ronda</p>
+          <h2 class="h2" data-anim="rise" style="--d:0.5s; font-size:42px; margin-bottom:28px;">Qué entregamos con €500k</h2>
+
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex; gap:22px; padding:22px 24px; background:var(--panel); border:1px solid var(--line); border-radius:12px; align-items:center;">
+              <div style="flex-shrink:0; width:48px; height:48px; border-radius:10px; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-weight:700; font-size:18px;">01</div>
+              <div>
+                <div class="mono" style="font-size:17px; letter-spacing:0.14em; color:var(--accent); text-transform:uppercase; font-weight:600;">PRODUCTO</div>
+                <div style="font-size:26px; font-weight:500; margin-top:4px;">10+ conectores de evidencia y packs NIS2/DORA</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:22px; padding:22px 24px; background:var(--panel); border:1px solid var(--line); border-radius:12px; align-items:center;">
+              <div style="flex-shrink:0; width:48px; height:48px; border-radius:10px; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-weight:700; font-size:18px;">02</div>
+              <div>
+                <div class="mono" style="font-size:17px; letter-spacing:0.14em; color:var(--accent); text-transform:uppercase; font-weight:600;">GO-TO-MARKET</div>
+                <div style="font-size:26px; font-weight:500; margin-top:4px;">Repetir playbook en DACH/España con partners</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:22px; padding:22px 24px; background:var(--panel); border:1px solid var(--line); border-radius:12px; align-items:center;">
+              <div style="flex-shrink:0; width:48px; height:48px; border-radius:10px; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-weight:700; font-size:18px;">03</div>
+              <div>
+                <div class="mono" style="font-size:17px; letter-spacing:0.14em; color:var(--accent); text-transform:uppercase; font-weight:600;">MÉTRICAS</div>
+                <div style="font-size:26px; font-weight:500; margin-top:4px;">&gt; €100k MRR · NRR &gt; 110%</div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:22px; padding:22px 24px; background:var(--panel); border:1px solid var(--line); border-radius:12px; align-items:center;">
+              <div style="flex-shrink:0; width:48px; height:48px; border-radius:10px; background:var(--accent-soft); color:var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-weight:700; font-size:18px;">04</div>
+              <div>
+                <div class="mono" style="font-size:17px; letter-spacing:0.14em; color:var(--accent); text-transform:uppercase; font-weight:600;">SERIE A</div>
+                <div style="font-size:26px; font-weight:500; margin-top:4px;">Churn bajo + eficiencia CAC demostrada</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chrome-bottom">
+        <span>P&amp;L · SUPUESTOS EJEMPLO · CONTRATACIÓN GRADUAL</span>
+        <span class="tag">09 / 11</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 9 — TEAM ============ -->
+  <section class="slide" data-label="Equipo">
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="wordmark"><span class="dot"></span>RISKITERA</span>
+        <span class="crumb"><span>09 · EQUIPO</span><span class="sep">·</span><span>CAPACIDAD DE EJECUCIÓN</span></span>
+      </div>
+
+      <div style="margin-top:28px; position:relative; z-index:2;">
+        <p class="kicker" data-anim="left" style="--d:0.05s;">Equipo</p>
+        <h2 class="h1" data-anim="rise" style="--d:0.15s; font-size:82px;">Fundadores con 20+ años<br/>en ciberseguridad regulada.</h2>
+      </div>
+
+      <!-- Founders -->
+      <div style="margin-top:44px; display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; position:relative; z-index:2;">
+        <div class="card" data-anim="rise" style="--d:0.4s; padding:30px;">
+          <div style="display:flex; align-items:center; gap:18px; margin-bottom:20px;">
+            <!-- Initial avatar -->
+            <div style="width:64px; height:64px; border-radius:14px; background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#0a0a0a; font-weight:600; font-size:26px; display:flex; align-items:center; justify-content:center; font-family:var(--sans); letter-spacing:-0.02em;">DM</div>
+            <div>
+              <div class="mono" style="font-size:11px; letter-spacing:0.2em; color:var(--accent); text-transform:uppercase;">CEO &amp; Co-fundador</div>
+              <div style="font-size:26px; font-weight:500; margin-top:2px;">David Moya García</div>
+            </div>
+          </div>
+          <p style="font-size:16px; color:var(--ink-dim); line-height:1.5; margin:0;">
+            Ex Head of Detect en entidad bancaria. BDM sector público. <span style="color:var(--ink);">20 años en ciber.</span>
+          </p>
+        </div>
+
+        <div class="card" data-anim="rise" style="--d:0.55s; padding:30px;">
+          <div style="display:flex; align-items:center; gap:18px; margin-bottom:20px;">
+            <div style="width:64px; height:64px; border-radius:14px; background:var(--panel-2); color:var(--ink); font-weight:600; font-size:26px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line-2); letter-spacing:-0.02em;">DG</div>
+            <div>
+              <div class="mono" style="font-size:11px; letter-spacing:0.2em; color:var(--accent); text-transform:uppercase;">CTO &amp; Co-fundador</div>
+              <div style="font-size:26px; font-weight:500; margin-top:2px;">Daniel García</div>
+            </div>
+          </div>
+          <p style="font-size:16px; color:var(--ink-dim); line-height:1.5; margin:0;">
+            Ingeniero de seguridad. Arquitectura tecnológica, seguridad y data.
+          </p>
+        </div>
+
+        <div class="card" data-anim="rise" style="--d:0.7s; padding:30px;">
+          <div style="display:flex; align-items:center; gap:18px; margin-bottom:20px;">
+            <div style="width:64px; height:64px; border-radius:14px; background:var(--panel-2); color:var(--ink); font-weight:600; font-size:22px; display:flex; align-items:center; justify-content:center; border:1px solid var(--line-2); letter-spacing:-0.02em;">IA</div>
+            <div>
+              <div class="mono" style="font-size:11px; letter-spacing:0.2em; color:var(--accent); text-transform:uppercase;">Global Manager</div>
+              <div style="font-size:26px; font-weight:500; margin-top:2px;">IA · Sales · Ops</div>
+            </div>
+          </div>
+          <p style="font-size:16px; color:var(--ink-dim); line-height:1.5; margin:0;">
+            Responsable de IA, ventas globales y operación comercial.
+          </p>
+        </div>
+      </div>
+
+      <!-- Team composition + next hires -->
+      <div style="margin-top:36px; display:grid; grid-template-columns: 1.3fr 1fr; gap:20px; position:relative; z-index:2;">
+        <div class="card" data-anim="rise" style="--d:0.9s; padding:28px 32px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+            <span class="mono" style="font-size:12px; letter-spacing:0.18em; color:var(--ink-mute); text-transform:uppercase;">EQUIPO ACTUAL</span>
+            <span style="font-size:36px; font-weight:500;">10<span style="color:var(--ink-mute); font-size:18px; margin-left:6px;">personas</span></span>
+          </div>
+          <!-- composition bar -->
+          <div style="display:flex; height:14px; border-radius:8px; overflow:hidden; background:var(--panel-2);">
+            <div style="flex: 6; background:var(--accent);"></div>
+            <div style="flex: 2; background:#2563eb;"></div>
+            <div style="flex: 1; background:#1d4ed8;"></div>
+            <div style="flex: 1; background:#1e40af;"></div>
+          </div>
+          <div style="margin-top:14px; display:grid; grid-template-columns: repeat(4, 1fr); gap:12px; font-family:var(--mono); font-size:13px;">
+            <div><span style="color:var(--accent);">● 6</span> <span style="color:var(--ink-dim);">Eng</span></div>
+            <div><span style="color:#2563eb;">● 2</span> <span style="color:var(--ink-dim);">Producto</span></div>
+            <div><span style="color:#1d4ed8;">● 1</span> <span style="color:var(--ink-dim);">Ventas</span></div>
+            <div><span style="color:#1e40af;">● 1</span> <span style="color:var(--ink-dim);">Ops</span></div>
+          </div>
+        </div>
+
+        <div class="card" data-anim="rise" style="--d:1.05s; padding:28px 32px;">
+          <span class="mono" style="font-size:12px; letter-spacing:0.18em; color:var(--ink-mute); text-transform:uppercase;">CONTRATACIONES CLAVE · 12 MESES</span>
+          <ul style="list-style:none; padding:0; margin:14px 0 0; display:flex; flex-direction:column; gap:8px;">
+            <li style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed var(--line); font-size:17px;">
+              <span>Head of Sales</span><span class="mono" style="color:var(--accent); font-size:13px;">DACH / EU</span>
+            </li>
+            <li style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px dashed var(--line); font-size:17px;">
+              <span>Solutions Engineer</span><span class="mono" style="color:var(--ink-dim); font-size:13px;">PRE-VENTA</span>
+            </li>
+            <li style="display:flex; justify-content:space-between; padding:8px 0; font-size:17px;">
+              <span>Security Research</span><span class="mono" style="color:var(--ink-dim); font-size:13px;">CONTENIDO NIS2/DORA</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="chrome-bottom">
+        <span>CAPACIDAD DE EJECUCIÓN</span>
+        <span class="tag">10 / 11</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 10 — CLOSE ============ -->
+  <section class="slide" data-label="Gracias">
+    <!-- radar decoration (echo of cover) -->
+    <div style="position:absolute; left:-200px; top:-200px; width:900px; height:900px; border-radius:999px; border:1px solid var(--line); pointer-events:none; opacity:0.6;"></div>
+    <div style="position:absolute; left:-400px; top:-400px; width:1300px; height:1300px; border-radius:999px; border:1px solid var(--line); pointer-events:none; opacity:0.4;"></div>
+    <div style="position:absolute; right:-300px; bottom:-300px; width:1000px; height:1000px; border-radius:999px; background:radial-gradient(circle, rgba(59, 130, 246, 0.12), transparent 70%); pointer-events:none;"></div>
+
+    <div class="chrome">
+      <div class="chrome-top">
+        <span class="wordmark"><span class="dot"></span>RISKITERA</span>
+        <span class="crumb"><span>10 · CONTACTO</span><span class="sep">·</span><span>GRACIAS</span></span>
+      </div>
+
+      <div style="margin-top:100px; max-width:1500px; position:relative; z-index:2;">
+        <p class="kicker" data-anim="left" style="--d:0.05s;">Gracias</p>
+        <h1 class="h1" data-anim="rise" style="--d:0.2s; font-size:148px; line-height:0.96;">
+          Compliance continuo.<br/>
+          <span style="font-family:var(--serif); font-style:italic; font-weight:400; color:var(--accent);">Hablemos.</span>
+        </h1>
+      </div>
+
+      <!-- Contact card -->
+      <div data-anim="rise" style="--d:0.7s; margin-top:70px; display:grid; grid-template-columns: auto 1fr; gap:32px; align-items:center; max-width:1100px; padding:28px 32px; border:1px solid var(--line-2); border-radius:16px; background:rgba(255,255,255,0.02); position:relative; z-index:2;">
+        <div style="width:88px; height:88px; border-radius:18px; background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#0a0a0a; font-weight:600; font-size:34px; display:flex; align-items:center; justify-content:center; letter-spacing:-0.02em;">DM</div>
+        <div>
+          <div style="font-size:30px; font-weight:500;">David Moya García <span style="color:var(--ink-mute); font-weight:400; font-size:20px; margin-left:8px;">· CEO</span></div>
+          <div style="margin-top:18px; display:flex; gap:36px; flex-wrap:wrap;">
+            <div>
+              <div class="mono" style="font-size:11px; color:var(--ink-mute); letter-spacing:0.14em; text-transform:uppercase;">EMAIL</div>
+              <div class="mono" style="font-size:20px; color:var(--ink); margin-top:4px;">david@riskitera.com</div>
+            </div>
+            <div>
+              <div class="mono" style="font-size:11px; color:var(--ink-mute); letter-spacing:0.14em; text-transform:uppercase;">TEL</div>
+              <div class="mono" style="font-size:20px; color:var(--ink); margin-top:4px;">+34 629 346 366</div>
+            </div>
+            <div>
+              <div class="mono" style="font-size:11px; color:var(--ink-mute); letter-spacing:0.14em; text-transform:uppercase;">WEB</div>
+              <div class="mono" style="font-size:20px; color:var(--accent); margin-top:4px;">riskitera.com</div>
+            </div>
+            <div>
+              <div class="mono" style="font-size:11px; color:var(--ink-mute); letter-spacing:0.14em; text-transform:uppercase;">LINKEDIN</div>
+              <a href="https://www.linkedin.com/in/david-moya-b3a77547/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:8px; margin-top:4px; text-decoration:none;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                <span class="mono" style="font-size:20px; color:#0A66C2;">David Moya</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA demo -->
+      <div data-anim="rise" style="--d:1.1s; margin-top:40px; display:flex; align-items:center; gap:28px; position:relative; z-index:2;">
+        <a href="https://demo.riskitera.com" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:14px; padding:20px 40px; background:var(--accent); color:#fff; font-family:var(--sans); font-size:22px; font-weight:600; letter-spacing:-0.01em; border-radius:12px; text-decoration:none;">
+          Solicita acceso a la demo
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </a>
+        <div style="padding:16px 28px; border:1px solid var(--line-2); border-radius:12px; background:rgba(255,255,255,0.03);">
+          <div class="mono" style="font-size:11px; color:var(--ink-mute); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:6px;">URL DE ACCESO</div>
+          <div class="mono" style="font-size:28px; color:var(--accent); letter-spacing:0.02em;">demo.riskitera.com</div>
+        </div>
+      </div>
+
+      <div class="chrome-bottom">
+        <span>RISKITERA · CONFIDENCIAL · 2026</span>
+        <span class="tag">11 / 11</span>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="demo-video.js"></script>
+
+<script>
+  // Demo video: hide placeholder once the real MP4 is playable.
+  (function(){
+    const video = document.getElementById('demo-video');
+    const placeholder = document.getElementById('demo-placeholder');
+    if (!video || !placeholder) return;
+    const hide = () => { placeholder.style.display = 'none'; };
+    const show = () => { placeholder.style.display = 'flex'; };
+    video.addEventListener('loadeddata', hide);
+    video.addEventListener('playing', hide);
+    video.addEventListener('error', show);
+    const src = video.querySelector('source');
+    if (src) src.addEventListener('error', show);
+    // Also check source availability shortly after load
+    setTimeout(() => {
+      if (video.readyState < 2 || video.networkState === 3) show();
+    }, 1000);
+  })();
+</script>
+
+<script>
+  // Replay entry animations on each slide change.
+  (function(){
+    const replay = (slide) => {
+      if (!slide) return;
+      const items = slide.querySelectorAll('[data-anim]');
+      items.forEach(el => el.removeAttribute('data-anim-in'));
+      void slide.offsetWidth;
+      requestAnimationFrame(() => {
+        items.forEach(el => el.setAttribute('data-anim-in', ''));
+      });
+    };
+    const attach = () => {
+      const stage = document.querySelector('deck-stage');
+      if (!stage) return;
+      stage.addEventListener('slidechange', (e) => replay(e.detail.slide));
+      // Stamp the currently active slide immediately in case we missed
+      // deck-stage's synchronous 'init' slidechange.
+      const active = stage.querySelector('[data-deck-active]')
+                  || stage.querySelector('section.slide')
+                  || stage.querySelector('section');
+      replay(active);
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', attach);
+    } else {
+      attach();
+    }
+  })();
+</script>
+</body>
+</html>
