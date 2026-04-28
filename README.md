@@ -56,9 +56,10 @@ El mercado europeo de GRC crece a doble digito. Las regulaciones (ENS Alto, NIS2
 <div align="center">
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-David_Moya_Garcia-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/david-moya-b3a77547/)
+[![Agenda una llamada](https://img.shields.io/badge/Agenda_30_min-006BFF?style=for-the-badge&logo=calendly&logoColor=white)](https://calendly.com/david-riskitera/30min)
 [![Email](https://img.shields.io/badge/Email-david@riskitera.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:david@riskitera.com)
 [![Web](https://img.shields.io/badge/riskitera.com-3B82F6?style=for-the-badge&logo=googlechrome&logoColor=white)](https://riskitera.com)
-[![Tel](https://img.shields.io/badge/+34_629_346_366-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](tel:+34629346366)
+
 
 </div>
 
